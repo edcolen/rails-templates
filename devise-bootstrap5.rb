@@ -114,7 +114,7 @@ after_bundle do
   ########################################
   run 'yarn add bootstrap@next @popperjs/core'
 
-  inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
+  inject_into_file 'app/views/layouts/application.html.erb', after: '<%= stimulus_include_tags %>' do
     <<~HTML
       \n
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
