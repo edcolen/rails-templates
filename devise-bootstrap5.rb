@@ -3,7 +3,7 @@
 # Gems
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
-  <<~RUBY
+  <<-RUBY
     gem 'font-awesome-sass'
     gem 'bootstrap', '~> 5.0.0.beta1'
     gem 'jquery-rails'
@@ -78,7 +78,7 @@ after_bundle do
   generate('rspec:install')
   gsub_file('/spec/rails_helper.rb', /config.use_transactional_fixtures = true/, 'config.use_transactional_fixtures = false')
   inject_into_file 'app/views/layouts/application.html.erb', after: 'config.use_transactional_fixtures = false' do
-    <<~RUBY
+    <<-RUBY
       config.before(:suite) do
         DatabaseCleaner.strategy = :transaction
         DatabaseCleaner.clean_with(:truncation)
@@ -107,7 +107,7 @@ after_bundle do
 
   # Git ignore
   ########################################
-  append_file '.gitignore', <<~TXT
+  append_file '.gitignore', <<-TXT
     # Ignore .env file containing credentials.
     .env*
     # Ignore Mac and Linux file system files
@@ -118,7 +118,7 @@ after_bundle do
   # App controller
   ########################################
   run 'rm app/controllers/application_controller.rb'
-  file 'app/controllers/application_controller.rb', <<~RUBY
+  file 'app/controllers/application_controller.rb', <<-RUBY
       class ApplicationController < ActionController::Base
         #{"protect_from_forgery with: :exception\n" if Rails.version < '5.2'}
         before_action :authenticate_user!
@@ -167,7 +167,7 @@ after_bundle do
   # Pages Controller
   ########################################
   run 'rm app/controllers/pages_controller.rb'
-  file 'app/controllers/pages_controller.rb', <<~RUBY
+  file 'app/controllers/pages_controller.rb', <<-RUBY
     class PagesController < ApplicationController
       skip_before_action :authenticate_user!, only: [ :home ]
       def home
