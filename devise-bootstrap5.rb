@@ -186,5 +186,5 @@ after_bundle do
 
   # Rubocop
   ########################################
-  run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/.rubocop.yml > .rubocop.yml'
+  run 'curl -L https://github.com/edcolen/rails-templates/blob/master/.rubocop.yml > .rubocop.yml'
 end
