@@ -112,13 +112,13 @@ after_bundle do
   run 'yarn add bootstrap@next @popperjs/core'
 
   inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
-    <<-HTML
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <<~HTML
+      <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     HTML
   end
 
   run 'mkdir app/javascript/stylesheets'
-  run 'app/javascript/stylesheets/application.scss'
+  run 'touch app/javascript/stylesheets/application.scss'
 
   append_file 'app/assets/stylesheets/application.scss', <<~CSS
     @import "bootstrap";
@@ -147,7 +147,7 @@ after_bundle do
 
   # Git ignore
   ########################################
-  append_file '.gitignore', <<-TXT
+  append_file '.gitignore', <<~TXT
     # Ignore .env file containing credentials.
     .env*
     # Ignore Mac and Linux file system files
@@ -158,7 +158,7 @@ after_bundle do
   # App controller
   ########################################
   run 'rm app/controllers/application_controller.rb'
-  file 'app/controllers/application_controller.rb', <<-RUBY
+  file 'app/controllers/application_controller.rb', <<~RUBY
       class ApplicationController < ActionController::Base
         #{"protect_from_forgery with: :exception\n" if Rails.version < '5.2'}
         before_action :authenticate_user!
@@ -203,7 +203,7 @@ after_bundle do
   # Pages Controller
   ########################################
   run 'rm app/controllers/pages_controller.rb'
-  file 'app/controllers/pages_controller.rb', <<-RUBY
+  file 'app/controllers/pages_controller.rb', <<~RUBY
     class PagesController < ApplicationController
       skip_before_action :authenticate_user!, only: [ :home ]
       def home
