@@ -188,7 +188,7 @@ after_bundle do
           devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
         end
     #{'    '}
-        # Uncomment if user model has additional attributes
+        # Uncomment and add keys if user model has additional attributes
         # def configure_permitted_parameters
         #   # For additional fields in app/views/devise/registrations/new.html.erb, e.g. "username"
         #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
