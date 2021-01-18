@@ -62,7 +62,6 @@ after_bundle do
   # Generators: db + pages controller
   ########################################
   rails_command 'db:drop db:create db:migrate'
-  # generate('simple_form:install', '--bootstrap')
   generate(:controller, 'pages', 'home', '--skip-routes')
 
   # Devise/Pundit install + user + views
