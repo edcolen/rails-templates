@@ -53,6 +53,7 @@ CSS
 ########################################
 inject_into_file 'app/views/layouts/application.html.erb', after: '<body>' do
   <<-HTML
+  \n
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
   HTML
@@ -62,7 +63,7 @@ after_bundle do
   # Generators: db + pages controller
   ########################################
   rails_command 'db:drop db:create db:migrate'
-  generate(:controller, 'pages', 'home', '--skip-routes')
+  generate(:controller, 'pages', 'home', '--skip-routes', '--no-test-framework')
 
   # Root route
   ########################################
@@ -81,6 +82,7 @@ after_bundle do
   gsub_file('spec/rails_helper.rb', /config.use_transactional_fixtures = true/, 'config.use_transactional_fixtures = false')
   inject_into_file 'spec/rails_helper.rb', after: 'config.use_transactional_fixtures = false' do
     <<-RUBY
+      \n
       config.before(:suite) do
         DatabaseCleaner.strategy = :transaction
         DatabaseCleaner.clean_with(:truncation)
@@ -101,6 +103,7 @@ after_bundle do
       end
 
       config.include Devise::Test::ControllerHelpers, type: :controller
+      config.include FactoryBot::Syntax::Methods
     RUBY
   end
 
@@ -113,6 +116,7 @@ after_bundle do
 
   inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
     <<~HTML
+      \n
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     HTML
   end
@@ -120,7 +124,7 @@ after_bundle do
   run 'mkdir app/javascript/stylesheets'
   run 'touch app/javascript/stylesheets/application.scss'
 
-  append_file 'app/assets/stylesheets/application.scss', <<~CSS
+  append_file 'app/javascript/stylesheets/application.scss', <<~CSS
     @import "bootstrap";
   CSS
 
