@@ -103,6 +103,44 @@ after_bundle do
   # Hotwire
   run 'rails hotwire:install'
 
+  # For Bootstrap in Rails 6.1
+  ########################################
+  run 'yarn add bootstrap@next @popperjs/core'
+
+  inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
+    <<-HTML
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    HTML
+  end
+
+  run 'mkdir app/javascript/stylesheets'
+  run 'app/javascript/stylesheets/application.scss'
+
+  append_file 'app/assets/stylesheets/application.scss', <<~CSS
+    @import "bootstrap";
+  CSS
+
+  append_file 'app/javascript/packs/application.js', <<~JS
+        import * as bootstrap from "bootstrap";
+        import "../stylesheets/application";
+    #{'    '}
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var popoverTriggerList = [].slice.call(
+                document.querySelectorAll('[data-bs-toggle="popover"]')
+            );
+            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+    #{'    '}
+            var tooltipTriggerList = [].slice.call(
+                document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            );
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+  JS
+
   # Git ignore
   ########################################
   append_file '.gitignore', <<-TXT
@@ -151,7 +189,7 @@ after_bundle do
         #   # For additional fields in app/views/devise/registrations/edit.html.erb, e.g. "username"
         #   devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
         # end
-        #   end
+        end
   RUBY
 
   # Shared views directory
