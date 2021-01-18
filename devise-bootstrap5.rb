@@ -62,7 +62,11 @@ after_bundle do
   # Generators: db + pages controller
   ########################################
   rails_command 'db:drop db:create db:migrate'
-  generate(:controller, 'pages', 'home')
+  generate(:controller, 'pages', 'home', '--skip-routes')
+
+  # Root route
+  ########################################
+  route "root to: 'pages#home'"
 
   # Devise/Pundit install + user + views
   ########################################
@@ -195,10 +199,6 @@ after_bundle do
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
-
-  # Root route
-  ########################################
-  route "root to: 'pages#home'"
 
   # Pages Controller
   ########################################
