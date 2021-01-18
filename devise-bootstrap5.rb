@@ -75,7 +75,7 @@ after_bundle do
   ########################################
   generate('rspec:install')
   gsub_file('spec/rails_helper.rb', /config.use_transactional_fixtures = true/, 'config.use_transactional_fixtures = false')
-  inject_into_file 'app/views/layouts/application.html.erb', after: 'config.use_transactional_fixtures = false' do
+  inject_into_file 'spec/rails_helper.rb', after: 'config.use_transactional_fixtures = false' do
     <<-RUBY
       config.before(:suite) do
         DatabaseCleaner.strategy = :transaction
