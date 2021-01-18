@@ -2,8 +2,8 @@
 
 Some useful templates to get rails apps up and running with some nice starter configuration out of the box.
 All templates are for Rails 6.1 & `Hotwire` installed and configured.
-For tests, it has RSpec, along with `pry-byebug`, `pry-rails`, `capybara`, `rspec-rails`, `database_cleaner` and `factory_bot_rails`.
-My DB of choice is Postgresql, but that can be changed the appropriate flags in the commands below.
+For tests, it has `RSpec`, along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`.
+My DB of choice is `Postgresql`, but that can be changed the appropriate flags in the commands below.
 
 ## Bootstrap 5
 Minimum template with Bootstrap 5.
