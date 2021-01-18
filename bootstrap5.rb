@@ -8,8 +8,6 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
     gem 'bootstrap', '~> 5.0.0.beta1'
     gem 'jquery-rails'
     gem 'hotwire-rails'
-    gem 'devise'
-    gem 'pundit'
   RUBY
 end
 
@@ -60,21 +58,9 @@ inject_into_file 'app/views/layouts/application.html.erb', after: '<body>' do
 end
 
 after_bundle do
-  # DB + pages controller
+  # DB
   ########################################
   rails_command 'db:drop db:create db:migrate'
-  generate(:controller, 'pages', 'home', '--skip-routes', '--no-test-framework')
-
-  # Root route
-  ########################################
-  route "root to: 'pages#home'"
-
-  # Devise/Pundit install + user + views
-  ########################################
-  generate('devise:install')
-  generate('devise', 'User')
-  generate('devise:views')
-  generate('pundit:install')
 
   # Tests
   ########################################
@@ -159,65 +145,9 @@ after_bundle do
     .DS_Store
   TXT
 
-  # App controller
-  ########################################
-  run 'rm app/controllers/application_controller.rb'
-  file 'app/controllers/application_controller.rb', <<~RUBY
-      class ApplicationController < ActionController::Base
-        before_action :authenticate_user!
-    #{'    '}
-        # Uncomment if user model has additional attributes
-        # before_action :configure_permitted_parameters, if: :devise_controller?
-    #{'    '}
-        include Pundit
-    #{'    '}
-        # Pundit: white-list approach.
-        after_action :verify_authorized, except: :index, unless: :skip_pundit?
-        after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
-    #{'    '}
-        rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-    #{'    '}
-        def user_not_authorized
-          flash[:alert] = 'You are not authorized to perform this action.'
-          redirect_to(root_path)
-        end
-    #{'    '}
-        private
-    #{'    '}
-        def skip_pundit?
-          devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
-        end
-    #{'    '}
-        # Uncomment if user model has additional attributes
-        # def configure_permitted_parameters
-        #   # For additional fields in app/views/devise/registrations/new.html.erb, e.g. "username"
-        #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
-    #{'    '}
-        #   # For additional fields in app/views/devise/registrations/edit.html.erb, e.g. "username"
-        #   devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
-        # end
-        end
-  RUBY
-
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
-
-  # Pages Controller
-  ########################################
-  run 'rm app/controllers/pages_controller.rb'
-  file 'app/controllers/pages_controller.rb', <<~RUBY
-    class PagesController < ApplicationController
-      skip_before_action :authenticate_user!, only: [ :home ]
-      def home
-      end
-    end
-  RUBY
-
-  # Environments / Devise requirements
-  ########################################
-  environment 'config.action_mailer.default_url_options = { host: "http://localhost:3000" }', env: 'development'
-  environment 'config.action_mailer.default_url_options = { host: "http://YOUR_DOMAIN" }', env: 'production'
 
   # Dotenv
   ########################################
