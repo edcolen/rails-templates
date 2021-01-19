@@ -90,10 +90,11 @@ after_bundle do
   ########################################
   run 'yarn add bootstrap@next @popperjs/core'
 
-  inject_into_file 'app/views/layouts/application.html.erb', after: '<%= stimulus_include_tags %>' do
+  inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
     <<~HTML
       \n
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      \n
     HTML
   end
 
@@ -105,24 +106,24 @@ after_bundle do
   CSS
 
   append_file 'app/javascript/packs/application.js', <<~JS
-        import * as bootstrap from "bootstrap";
-        import "../stylesheets/application";
+    import * as bootstrap from "bootstrap";
+    import "../stylesheets/application";
     #{'    '}
-        document.addEventListener("DOMContentLoaded", function(event) {
-            var popoverTriggerList = [].slice.call(
-                document.querySelectorAll('[data-bs-toggle="popover"]')
-            );
-            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
-                return new bootstrap.Popover(popoverTriggerEl);
-            });
-    #{'    '}
-            var tooltipTriggerList = [].slice.call(
-                document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            );
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var popoverTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="popover"]')
+        );
+        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl);
         });
+    #{'    '}
+        var tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
   JS
 
   # Git ignore
