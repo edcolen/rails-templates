@@ -3,11 +3,13 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 # Gems
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
-  <<-RUBY
+  <<~RUBY
     gem 'font-awesome-sass'
     gem 'bootstrap', '~> 5.0.0.beta1'
     gem 'jquery-rails'
     gem 'hotwire-rails'
+    gem 'hotwire-stimulus-rails'
+    gem 'turbo-rails'
   RUBY
 end
 
