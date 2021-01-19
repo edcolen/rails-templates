@@ -47,16 +47,6 @@ append_file 'app/assets/stylesheets/application.scss', <<~CSS
   @import "bootstrap";
 CSS
 
-# Layout
-########################################
-inject_into_file 'app/views/layouts/application.html.erb', after: '<body>' do
-  <<-HTML
-  \n
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  HTML
-end
-
 after_bundle do
   # DB
   ########################################
