@@ -10,6 +10,7 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
     gem 'hotwire-rails'
     gem 'hotwire-stimulus-rails'
     gem 'turbo-rails'
+    \n
   RUBY
 end
 
@@ -92,7 +93,7 @@ after_bundle do
   ########################################
   run 'yarn add bootstrap@next @popperjs/core'
 
-  inject_into_file 'app/views/layouts/application.html.erb', before: '</head>' do
+  inject_into_file 'app/views/layouts/application.html.erb', after: '<%= stimulus_include_tags %>' do
     <<~HTML
       \n
       <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>

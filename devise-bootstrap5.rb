@@ -8,8 +8,11 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
     gem 'bootstrap', '~> 5.0.0.beta1'
     gem 'jquery-rails'
     gem 'hotwire-rails'
+    gem 'hotwire-stimulus-rails'
+    gem 'turbo-rails'
     gem 'devise'
     gem 'pundit'
+    \n
   RUBY
 end
 
@@ -129,24 +132,24 @@ after_bundle do
   CSS
 
   append_file 'app/javascript/packs/application.js', <<~JS
-        import * as bootstrap from "bootstrap";
-        import "../stylesheets/application";
+    import * as bootstrap from "bootstrap";
+    import "../stylesheets/application";
     #{'    '}
-        document.addEventListener("DOMContentLoaded", function(event) {
-            var popoverTriggerList = [].slice.call(
-                document.querySelectorAll('[data-bs-toggle="popover"]')
-            );
-            var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
-                return new bootstrap.Popover(popoverTriggerEl);
-            });
-    #{'    '}
-            var tooltipTriggerList = [].slice.call(
-                document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            );
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var popoverTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="popover"]')
+        );
+        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl);
         });
+    #{'    '}
+        var tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
   JS
 
   # Git ignore
@@ -163,40 +166,40 @@ after_bundle do
   ########################################
   run 'rm app/controllers/application_controller.rb'
   file 'app/controllers/application_controller.rb', <<~RUBY
-      class ApplicationController < ActionController::Base
-        before_action :authenticate_user!
+    class ApplicationController < ActionController::Base
+      before_action :authenticate_user!
     #{'    '}
-        # Uncomment if user model has additional attributes
-        # before_action :configure_permitted_parameters, if: :devise_controller?
+      # Uncomment if user model has additional attributes
+      # before_action :configure_permitted_parameters, if: :devise_controller?
     #{'    '}
-        include Pundit
+      include Pundit
     #{'    '}
-        # Pundit: white-list approach.
-        after_action :verify_authorized, except: :index, unless: :skip_pundit?
-        after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+      # Pundit: white-list approach.
+      after_action :verify_authorized, except: :index, unless: :skip_pundit?
+      after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
     #{'    '}
-        rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+      rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
     #{'    '}
-        def user_not_authorized
-          flash[:alert] = 'You are not authorized to perform this action.'
-          redirect_to(root_path)
-        end
+      def user_not_authorized
+        flash[:alert] = 'You are not authorized to perform this action.'
+        redirect_to(root_path)
+      end
     #{'    '}
-        private
+      private
     #{'    '}
-        def skip_pundit?
-          devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
-        end
+      def skip_pundit?
+        devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+      end
     #{'    '}
-        # Uncomment and add keys if user model has additional attributes
-        # def configure_permitted_parameters
-        #   # For additional fields in app/views/devise/registrations/new.html.erb, e.g. "username"
-        #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
+      # Uncomment and add keys if user model has additional attributes
+      # def configure_permitted_parameters
+      #   # For additional fields in app/views/devise/registrations/new.html.erb, e.g. "username"
+      #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
     #{'    '}
-        #   # For additional fields in app/views/devise/registrations/edit.html.erb, e.g. "username"
-        #   devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
-        # end
-        end
+      #   # For additional fields in app/views/devise/registrations/edit.html.erb, e.g. "username"
+      #   devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
+      # end
+    end
   RUBY
 
   # Shared views directory
