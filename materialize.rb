@@ -3,12 +3,13 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 # Gems
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
-  <<-RUBY
+  <<~RUBY
     gem 'font-awesome-sass'
-    gem 'materialize-sass'
-    gem 'material_icons'#{' '}
     gem 'jquery-rails'
     gem 'hotwire-rails'
+    gem 'hotwire-stimulus-rails'
+    gem 'turbo-rails'
+    \n
   RUBY
 end
 
@@ -45,8 +46,6 @@ CSS
 append_file 'app/assets/stylesheets/application.scss', <<~CSS
   @import "config/index";
   @import "components/index";
-  @import "materialize/components/color-variables";
-  @import "materialize";
 CSS
 
 after_bundle do
@@ -88,14 +87,20 @@ after_bundle do
   # Hotwire
   run 'rails hotwire:install'
 
-  # Materalize
-  ########################################
-  inject_into_file 'app/javascript/packs/application.js', after: 'import "channels"' do
-    <<-JS
-    \n
-    //= require materialize
-    JS
-  end
+  gsub_file('app/views/layouts/application.html.erb',
+            /<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>/,
+            "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>")
+
+  run 'mkdir app/javascript/stylesheets'
+  run 'touch app/javascript/stylesheets/application.scss'
+
+  append_file 'app/javascript/stylesheets/application.scss', <<~CSS
+  CSS
+
+  append_file 'app/javascript/packs/application.js', <<~JS
+    import "../stylesheets/application";
+    #{'    '}
+  JS
 
   # Git ignore
   ########################################
