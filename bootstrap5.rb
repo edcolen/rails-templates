@@ -47,8 +47,18 @@ CSS
 append_file 'app/assets/stylesheets/application.scss', <<~CSS
   @import "config/index";
   @import "components/index";
-  @import "bootstrap";
 CSS
+
+# Webpacker stylesheets
+########################################
+run 'mkdir app/javascript/stylesheets'
+run 'touch app/javascript/stylesheets/application.scss'
+
+inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
+  <<-HTML
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  HTML
+end
 
 after_bundle do
   # DB
@@ -93,36 +103,19 @@ after_bundle do
   ########################################
   run 'yarn add bootstrap@next @popperjs/core'
 
-  gsub_file('app/views/layouts/application.html.erb',
-            /<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>/,
-            "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>")
-
-  run 'mkdir app/javascript/stylesheets'
-  run 'touch app/javascript/stylesheets/application.scss'
-
   append_file 'app/javascript/stylesheets/application.scss', <<~CSS
     @import "bootstrap";
   CSS
 
+  # Tooltips everywhere
+  run 'mkdir app/javascript/components'
+  run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/bootstrap_js/init_tooltips.js > app/javascript/components/init_tooltips.js'
+
   append_file 'app/javascript/packs/application.js', <<~JS
     import * as bootstrap from "bootstrap";
     import "../stylesheets/application";
-    #{'    '}
-    document.addEventListener("DOMContentLoaded", function(event) {
-        var popoverTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="popover"]')
-        );
-        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl);
-        });
-    #{'    '}
-        var tooltipTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        );
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    });
+    import { initTooltips } from "../components/init_tooltips";
+    initTooltips();
   JS
 
   # Git ignore
@@ -130,14 +123,21 @@ after_bundle do
   append_file '.gitignore', <<~TXT
     # Ignore .env file containing credentials.
     .env*
+    #{'    '}
     # Ignore Mac and Linux file system files
     *.swp
     .DS_Store
+    #{'    '}
+    # Ignore node modules
+    /node_modules
   TXT
 
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
+  touch 'mkdir app/views/shared/.gitkeep'
+  run 'mkdir app/views/shared/components'
+  touch 'mkdir app/views/shared/components/.gitkeep'
 
   # Dotenv
   ########################################
