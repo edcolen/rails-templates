@@ -135,9 +135,9 @@ after_bundle do
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
-  touch 'mkdir app/views/shared/.gitkeep'
+  run 'touch app/views/shared/.gitkeep'
   run 'mkdir app/views/shared/components'
-  touch 'mkdir app/views/shared/components/.gitkeep'
+  run 'touch app/views/shared/components/.gitkeep'
 
   # Dotenv
   ########################################
