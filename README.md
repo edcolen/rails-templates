@@ -1,12 +1,17 @@
 # Rails Templates
 
 Some useful templates to get rails apps up and running with some nice starter configuration out of the box.
-All templates are for Rails 6.1 & `Hotwire` installed and configured.
-For tests, they have `RSpec`, along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`.
-My DB of choice is `Postgresql`, but that can be changed the appropriate flags in the commands below.
+
+All templates are Rails 6.1 with [Hotwire](https://hotwire.dev/) (Turbo and Stimulus) installed and configured.
+
+For tests, they have [RSpec](https://rspec.info/), along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`.
+
+The DB of choice is `Postgresql`, but that can be changed the appropriate flags in the commands below.
+
+Since `Sprockets` and `Webpacker` coexist in Rails 6, the `stylesheet_link_tag` was kept along with the `stylesheet_pack_tag` in `application.html`. So it's possible to use the assets pipeline while `Wepacker` handles some js styles.
 
 ## Bootstrap 5
-Minimum template with Bootstrap 5.
+Minimum template with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
 
 ```bash
 rails new \
@@ -17,15 +22,44 @@ rails new \
 ```
 
 ## Devise & Bootstrap 5
-Template for apps that require user authorization & authentication.
+Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
 Main gems:
 - Devise
 - Pundit
+- Pages controller (with home action)
 
 ```bash
 rails new \
   --database postgresql \
   -m https://raw.githubusercontent.com/edcolen/rails-templates/master/devise-bootstrap5.rb \
+  -T \
+  YOUR_APP_NAME
+```
+
+## Materialize CSS
+Minimum template with [Materialize CSS](https://materializecss.com/).
+The JS components are imported from individual files, so options can be passed instead of a global initialization.
+
+```bash
+rails new \
+  --database postgresql \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize.rb \
+  -T \
+  YOUR_APP_NAME
+```
+
+## Devise & Materialize CSS
+Template for apps that require user authorization & authentication, with [Materialize CSS](https://materializecss.com/).
+The JS components are imported from individual files, so options can be passed instead of a global initialization.
+Main gems:
+- Devise
+- Pundit
+- Pages controller (with home action)
+
+```bash
+rails new \
+  --database postgresql \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize.rb \
   -T \
   YOUR_APP_NAME
 ```
