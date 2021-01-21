@@ -8,6 +8,8 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
     gem 'hotwire-rails'
     gem 'hotwire-stimulus-rails'
     gem 'turbo-rails'
+    gem 'devise'
+    gem 'pundit'
     \n
   RUBY
 end
