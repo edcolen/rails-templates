@@ -59,7 +59,7 @@ Main gems:
 ```bash
 rails new \
   --database postgresql \
-  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize.rb \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/devise-materialize.rb \
   -T \
   YOUR_APP_NAME
 ```
