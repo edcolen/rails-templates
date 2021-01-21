@@ -49,16 +49,31 @@ CSS
 append_file 'app/assets/stylesheets/application.scss', <<~CSS
   @import "config/index";
   @import "components/index";
-  @import "bootstrap";
 CSS
+
+# Webpacker stylesheets
+########################################
+run 'mkdir app/javascript/stylesheets'
+run 'touch app/javascript/stylesheets/application.scss'
+
+append_file 'app/javascript/packs/application.js', <<~JS
+  import "../stylesheets/application";
+JS
+
+inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
+  <<-HTML
+  \n
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  HTML
+end
 
 # Layout
 ########################################
 inject_into_file 'app/views/layouts/application.html.erb', after: '<body>' do
   <<-HTML
   \n
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
   HTML
 end
 
@@ -117,36 +132,17 @@ after_bundle do
   ########################################
   run 'yarn add bootstrap@next @popperjs/core'
 
-  gsub_file('app/views/layouts/application.html.erb',
-            /<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>/,
-            "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>")
-
-  run 'mkdir app/javascript/stylesheets'
-  run 'touch app/javascript/stylesheets/application.scss'
-
   append_file 'app/javascript/stylesheets/application.scss', <<~CSS
     @import "bootstrap";
   CSS
 
+  # Tooltips everywhere
+  run 'mkdir app/javascript/components'
+  run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/bootstrap_js/init_tooltips.js > app/javascript/components/init_tooltips.js'
+
   append_file 'app/javascript/packs/application.js', <<~JS
-    import * as bootstrap from "bootstrap";
-    import "../stylesheets/application";
-    #{'    '}
-    document.addEventListener("DOMContentLoaded", function(event) {
-        var popoverTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="popover"]')
-        );
-        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
-            return new bootstrap.Popover(popoverTriggerEl);
-        });
-    #{'    '}
-        var tooltipTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        );
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    });
+    import { initTooltips } from "../components/init_tooltips";
+    initTooltips();
   JS
 
   # Git ignore
@@ -154,9 +150,13 @@ after_bundle do
   append_file '.gitignore', <<~TXT
     # Ignore .env file containing credentials.
     .env*
+    #{''}
     # Ignore Mac and Linux file system files
     *.swp
     .DS_Store
+    #{''}
+    # Ignore node modules
+    /node_modules
   TXT
 
   # App controller
@@ -165,34 +165,34 @@ after_bundle do
   file 'app/controllers/application_controller.rb', <<~RUBY
     class ApplicationController < ActionController::Base
       before_action :authenticate_user!
-    #{'    '}
+      #{''}
       # Uncomment if user model has additional attributes
       # before_action :configure_permitted_parameters, if: :devise_controller?
-    #{'    '}
+      #{''}
       include Pundit
-    #{'    '}
+      #{''}
       # Pundit: white-list approach.
       after_action :verify_authorized, except: :index, unless: :skip_pundit?
       after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
-    #{'    '}
+      #{''}
       rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-    #{'    '}
+      #{''}
       def user_not_authorized
         flash[:alert] = 'You are not authorized to perform this action.'
         redirect_to(root_path)
       end
-    #{'    '}
+      #{''}
       private
-    #{'    '}
+      #{''}
       def skip_pundit?
         devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
       end
-    #{'    '}
+      #{''}
       # Uncomment and add keys if user model has additional attributes
       # def configure_permitted_parameters
       #   # For additional fields in app/views/devise/registrations/new.html.erb, e.g. "username"
       #   devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
-    #{'    '}
+      #{''}
       #   # For additional fields in app/views/devise/registrations/edit.html.erb, e.g. "username"
       #   devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
       # end
@@ -202,6 +202,8 @@ after_bundle do
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
+  run 'mkdir app/views/shared/components'
+  run 'touch app/views/shared/components/.gitkeep'
 
   # Pages Controller
   ########################################

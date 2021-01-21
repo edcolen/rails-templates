@@ -54,6 +54,10 @@ CSS
 run 'mkdir app/javascript/stylesheets'
 run 'touch app/javascript/stylesheets/application.scss'
 
+append_file 'app/javascript/packs/application.js', <<~JS
+  import "../stylesheets/application";
+JS
+
 inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
   <<-HTML
   \n
@@ -113,7 +117,6 @@ after_bundle do
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/bootstrap_js/init_tooltips.js > app/javascript/components/init_tooltips.js'
 
   append_file 'app/javascript/packs/application.js', <<~JS
-    import "../stylesheets/application";
     import { initTooltips } from "../components/init_tooltips";
     initTooltips();
   JS
@@ -123,11 +126,11 @@ after_bundle do
   append_file '.gitignore', <<~TXT
     # Ignore .env file containing credentials.
     .env*
-    #{'    '}
+    #{''}
     # Ignore Mac and Linux file system files
     *.swp
     .DS_Store
-    #{'    '}
+    #{''}
     # Ignore node modules
     /node_modules
   TXT
@@ -135,7 +138,6 @@ after_bundle do
   # Shared views directory
   ########################################
   run 'mkdir app/views/shared'
-  run 'touch app/views/shared/.gitkeep'
   run 'mkdir app/views/shared/components'
   run 'touch app/views/shared/components/.gitkeep'
 
