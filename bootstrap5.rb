@@ -112,7 +112,6 @@ after_bundle do
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/bootstrap_js/init_tooltips.js > app/javascript/components/init_tooltips.js'
 
   append_file 'app/javascript/packs/application.js', <<~JS
-    import * as bootstrap from "bootstrap";
     import "../stylesheets/application";
     import { initTooltips } from "../components/init_tooltips";
     initTooltips();

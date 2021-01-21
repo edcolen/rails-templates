@@ -1,3 +1,5 @@
+import * as bootstrap from "bootstrap";
+
 const initTooltips = () => {
     document.addEventListener("DOMContentLoaded", function(event) {
         var popoverTriggerList = [].slice.call(
