@@ -10,6 +10,17 @@ The DB of choice is `Postgresql`, but that can be changed the appropriate flags 
 
 Since `Sprockets` and `Webpacker` coexist in Rails 6, the `stylesheet_link_tag` was kept along with the `stylesheet_pack_tag` in `application.html`. So it's possible to use the assets pipeline while `Wepacker` handles some js styles.
 
+## Minimum
+Minimum template with just Hotwire and test suite installed.
+
+```bash
+rails new \
+  --database postgresql \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/minimum.rb \
+  -T \
+  YOUR_APP_NAME
+```
+
 ## Bootstrap 5
 Minimum template with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
 
@@ -22,11 +33,10 @@ rails new \
 ```
 
 ## Devise & Bootstrap 5
-Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
+Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/). It includes a pages controller (with home action routed as root).
 Main gems:
 - Devise
 - Pundit
-- Pages controller (with home action)
 
 ```bash
 rails new \
@@ -50,11 +60,10 @@ rails new \
 
 ## Devise & Materialize CSS
 Template for apps that require user authorization & authentication, with [Materialize CSS](https://materializecss.com/).
-The JS components are imported from individual files, so options can be passed instead of a global initialization.
+The JS components are imported from individual files, so options can be passed instead of a global initialization. It also includes a pages controller (with home action routed as root).
 Main gems:
 - Devise
 - Pundit
-- Pages controller (with home action)
 
 ```bash
 rails new \
