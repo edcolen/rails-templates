@@ -95,7 +95,6 @@ after_bundle do
         DatabaseCleaner.clean
       end
 
-      config.include Devise::Test::ControllerHelpers, type: :controller
       config.include FactoryBot::Syntax::Methods
     RUBY
   end
