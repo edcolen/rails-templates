@@ -72,17 +72,3 @@ rails new \
   -T \
   YOUR_APP_NAME
 ```
-
-## Devise & Bootstrap 5 (for Termux)
-Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/). It includes a pages controller (with home action routed as root).
-Main gems:
-- Devise
-- Pundit
-
-```bash
-rails new \
-  --database postgresql \
-  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/termux-devise-bootstrap5.rb \
-  -T \
-  YOUR_APP_NAME
-```
