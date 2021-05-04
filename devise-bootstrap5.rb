@@ -128,18 +128,17 @@ after_bundle do
   # StimulusJS
   run 'yarn add stimulus'
   run 'mkdir app/javascript/controllers'
-  run 'touch app/javascript/controllers/hello_controller'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/stimulus_js/hello_controller.js > app/javascript/controllers/hello_controller.js'
 
   inject_into_file 'app/javascript/packs/application.js', after: 'import "channels"' do
     <<~JS
       #{''}
-        import { Application } from "stimulus";
-        import { definitionsFromContext } from "stimulus/webpack-helpers";
+      import { Application } from "stimulus";
+      import { definitionsFromContext } from "stimulus/webpack-helpers";
       #{''}
-        const application = Application.start();
-        const context = require.context("../controllers/", true, /\.js$/);
-        application.load(definitionsFromContext(context));
+      const application = Application.start();
+      const context = require.context("../controllers/", true, /\.js$/);
+      application.load(definitionsFromContext(context));
       #{''}
     JS
   end
