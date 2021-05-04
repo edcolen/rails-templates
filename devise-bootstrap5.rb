@@ -131,7 +131,7 @@ after_bundle do
   run 'touch app/javascript/controllers/hello_controller'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/stimulus_js/hello_controller.js > app/javascript/controllers/hello_controller.js'
 
-  inject_into_file 'app/javascript/packs/application.js', after: 'import "channels";' do
+  inject_into_file 'app/javascript/packs/application.js', after: 'import "channels"' do
     <<~JS
       #{''}
         import { Application } from "stimulus";
