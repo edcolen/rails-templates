@@ -4,14 +4,12 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
   <<~RUBY
-    gem 'hotwire-rails'
-    gem 'hotwire-stimulus-rails'
     gem 'turbo-rails'
     \n
   RUBY
 end
 
-gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1'")
+gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.3'")
 
 inject_into_file 'Gemfile', after: 'group :development, :test do' do
   <<-RUBY
@@ -49,10 +47,10 @@ CSS
 # Webpacker stylesheets
 ########################################
 run 'mkdir app/javascript/stylesheets'
-run 'touch app/javascript/stylesheets/application.scss'
+run 'touch app/javascript/stylesheets/style.scss'
 
 append_file 'app/javascript/packs/application.js', <<~JS
-  import "../stylesheets/application";
+  import "../stylesheets/style";
 JS
 
 inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
@@ -98,7 +96,7 @@ after_bundle do
   end
 
   # Hotwire
-  run 'rails hotwire:install'
+  run 'rails turbo:install'
 
   # For Materialize CSS in Rails 6.1
   ########################################
