@@ -143,9 +143,9 @@ after_bundle do
     JS
   end
 
-  # For Bootstrap in Rails 6.1
+  # For Bootstrap (and icons) in Rails 6.1
   ########################################
-  run 'yarn add bootstrap@next @popperjs/core'
+  run 'yarn add bootstrap@next @popperjs/core bootstrap-icons'
 
   append_file 'app/javascript/stylesheets/style.scss', <<~CSS
     @import "bootstrap";
@@ -156,6 +156,8 @@ after_bundle do
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/bootstrap_js/init_tooltips.js > app/javascript/components/init_tooltips.js'
 
   append_file 'app/javascript/packs/application.js', <<~JS
+    import "bootstrap";
+    import "bootstrap-icons/font/bootstrap-icons.css";
     import { initTooltips } from "../components/init_tooltips";
     initTooltips();
   JS
