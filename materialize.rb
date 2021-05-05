@@ -55,6 +55,7 @@ JS
 
 inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
   <<-HTML
+  \n
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   HTML
 end
@@ -159,6 +160,7 @@ after_bundle do
   # Material icons
   inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
     <<-HTML
+    \n
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     HTML
   end
