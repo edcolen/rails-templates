@@ -181,7 +181,7 @@ after_bundle do
   JS
 
   # Material icons
-  inject_into_file 'app/views/layouts/application.html.erb', after: '<%= stimulus_include_tags %>' do
+  inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
     <<-HTML
     \n
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
