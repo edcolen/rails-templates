@@ -73,27 +73,28 @@ after_bundle do
   gsub_file('spec/rails_helper.rb', /config.use_transactional_fixtures = true/, 'config.use_transactional_fixtures = false')
   inject_into_file 'spec/rails_helper.rb', after: 'config.use_transactional_fixtures = false' do
     <<-RUBY
-      \n
-      config.before(:suite) do
-        DatabaseCleaner.strategy = :transaction
-        DatabaseCleaner.clean_with(:truncation)
-        DatabaseCleaner.start
-        DatabaseCleaner.clean
-      end
+    \n
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+      DatabaseCleaner.start
+      DatabaseCleaner.clean
+    end
 
-      config.before(:each) do
-        DatabaseCleaner.clean
-      end
+    config.before(:each) do
+      DatabaseCleaner.clean
+    end
 
-      config.after(:each) do
-        DatabaseCleaner.clean
-      end
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
 
-      config.after(:suite) do
-        DatabaseCleaner.clean
-      end
+    config.after(:suite) do
+      DatabaseCleaner.clean
+    end
 
-      config.include FactoryBot::Syntax::Methods
+    config.include Devise::Test::ControllerHelpers, type: :controller
+    config.include FactoryBot::Syntax::Methods
     RUBY
   end
 
