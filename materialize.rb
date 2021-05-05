@@ -55,8 +55,7 @@ JS
 
 inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
   <<-HTML
-  \n
-  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   HTML
 end
 
@@ -136,6 +135,7 @@ after_bundle do
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/datepicker.js > app/javascript/components/materialize/datepicker.js'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/dropdown.js > app/javascript/components/materialize/dropdown.js'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/featurediscovery.js > app/javascript/components/materialize/featurediscovery.js'
+  run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/floatingactionbutton.js > app/javascript/components/materialize/floatingactionbutton.js'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/media.js > app/javascript/components/materialize/media.js'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/modal.js > app/javascript/components/materialize/modal.js'
   run 'curl -L https://raw.githubusercontent.com/edcolen/rails-templates/master/materialize_js/components/parallax.js > app/javascript/components/materialize/parallax.js'
@@ -159,7 +159,6 @@ after_bundle do
   # Material icons
   inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
     <<-HTML
-    \n
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     HTML
   end
