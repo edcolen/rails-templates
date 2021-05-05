@@ -120,7 +120,7 @@ after_bundle do
   ########################################
   run 'yarn add materialize-css'
 
-  append_file 'app/javascript/stylesheets/application.scss', <<~CSS
+  append_file 'app/javascript/stylesheets/style.scss', <<~CSS
     @import "materialize-css/dist/css/materialize";
   CSS
 

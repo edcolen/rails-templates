@@ -2,7 +2,7 @@
 
 Some useful templates to get rails apps up and running with some nice starter configuration out of the box.
 
-All templates are Rails 6.1 with [Hotwire](https://hotwire.dev/) (Turbo and Stimulus) installed and configured.
+All templates are Rails 6.1.3 with [Hotwire](https://hotwire.dev/) (Turbo and Stimulus) installed and configured.
 
 For tests, they have [RSpec](https://rspec.info/), along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`.
 

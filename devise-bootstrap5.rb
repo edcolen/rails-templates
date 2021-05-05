@@ -181,6 +181,7 @@ after_bundle do
   run 'rm app/controllers/application_controller.rb'
   file 'app/controllers/application_controller.rb', <<~RUBY
     class ApplicationController < ActionController::Base
+      protect_from_forgery
       before_action :authenticate_user!
       #{''}
       # Uncomment if user model has additional attributes
