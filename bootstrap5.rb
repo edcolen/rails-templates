@@ -3,11 +3,13 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 # Gems
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
-  <<~RUBY
-    gem 'font-awesome-sass'
-    gem 'bootstrap', '~> 5.0.0.beta2'
-    gem 'turbo-rails'
-    \n
+  <<-RUBY
+  # Enables turbo (Hotwire) functionalities
+  gem 'turbo-rails'
+  # Frontend libraries
+  gem 'font-awesome-sass'
+  gem 'bootstrap', '~> 5.0.0.beta2'
+  \n
   RUBY
 end
 
@@ -15,13 +17,13 @@ gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.3.2'")
 
 inject_into_file 'Gemfile', after: 'group :development, :test do' do
   <<-RUBY
+  gem 'capybara'
+  gem 'database_cleaner'
   gem 'dotenv-rails'
+  gem 'factory_bot_rails'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'capybara'
   gem 'rspec-rails'
-  gem 'database_cleaner'
-  gem 'factory_bot_rails'
   RUBY
 end
 
@@ -55,7 +57,8 @@ append_file 'app/javascript/packs/application.js', <<~JS
   import "../stylesheets/style";
 JS
 
-inject_into_file 'app/views/layouts/application.html.erb', after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
+inject_into_file 'app/views/layouts/application.html.erb',
+                 after: "<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>" do
   <<-HTML
   \n
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -70,7 +73,8 @@ after_bundle do
   # Tests
   ########################################
   generate('rspec:install')
-  gsub_file('spec/rails_helper.rb', /config.use_transactional_fixtures = true/, 'config.use_transactional_fixtures = false')
+  gsub_file('spec/rails_helper.rb', /config.use_transactional_fixtures = true/,
+            'config.use_transactional_fixtures = false')
   inject_into_file 'spec/rails_helper.rb', after: 'config.use_transactional_fixtures = false' do
     <<-RUBY
     \n
