@@ -4,10 +4,13 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 ########################################
 inject_into_file 'Gemfile', before: 'group :development, :test do' do
   <<-RUBY
+  \n
   # Manages user authentication
   gem 'devise'
+  \n
   # Manages user authorization
   gem 'pundit'
+  \n
   # Enables turbo (Hotwire) functionalities
   gem 'turbo-rails'
   \n
