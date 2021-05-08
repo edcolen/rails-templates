@@ -4,13 +4,13 @@ Some useful templates to get rails apps up and running with some nice starter co
 
 All templates are Rails 6.1.3 with [Hotwire](https://hotwire.dev/) (Turbo and Stimulus) installed and configured.
 
-For tests, they have [RSpec](https://rspec.info/), along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`.
+For tests, they have [RSpec](https://rspec.info/), along with `pry-byebug`, `pry-rails`, `capybara`, `database_cleaner` and `factory_bot_rails`. Other options with minitest will be added in time.
 
 The DB of choice is `Postgresql`, but that can be changed the appropriate flags in the commands below.
 
 Since `Sprockets` and `Webpacker` coexist in Rails 6, the `stylesheet_link_tag` was kept along with the `stylesheet_pack_tag` in `application.html`. So it's possible to use the assets pipeline while `Wepacker` handles some js styles.
 
-## Minimum
+## Minimum (RSpec)
 Minimum template with just Hotwire and test suite installed.
 
 ```bash
@@ -21,7 +21,7 @@ rails new \
   YOUR_APP_NAME
 ```
 
-## Bootstrap 5
+## Bootstrap 5 (RSpec)
 Minimum template with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/).
 
 ```bash
@@ -32,7 +32,7 @@ rails new \
   YOUR_APP_NAME
 ```
 
-## Devise & Bootstrap 5
+## Devise & Bootstrap 5 (RSpec)
 Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/). It includes a pages controller (with home action routed as root).
 Main gems:
 - Devise
@@ -46,7 +46,20 @@ rails new \
   YOUR_APP_NAME
 ```
 
-## Materialize CSS
+## Devise & Bootstrap 5 (Minitest)
+Template for apps that require user authorization & authentication, with [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/). It includes a pages controller (with home action routed as root).
+Main gems:
+- Devise
+- Pundit
+
+```bash
+rails new \
+  --database postgresql \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/devise-bootstrap5-minitest.rb \
+  YOUR_APP_NAME
+```
+
+## Materialize CSS (RSpec)
 Minimum template with [Materialize CSS](https://materializecss.com/).
 The JS components are imported from individual files, so options can be passed instead of a global initialization.
 
@@ -58,7 +71,7 @@ rails new \
   YOUR_APP_NAME
 ```
 
-## Devise & Materialize CSS
+## Devise & Materialize CSS (RSpec)
 Template for apps that require user authorization & authentication, with [Materialize CSS](https://materializecss.com/).
 The JS components are imported from individual files, so options can be passed instead of a global initialization. It also includes a pages controller (with home action routed as root).
 Main gems:
