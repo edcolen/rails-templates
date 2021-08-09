@@ -10,12 +10,12 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
   \n
   # Frontend libraries
   gem 'font-awesome-sass'
-  gem 'bootstrap', '~> 5.0.0.beta2'
+  gem 'bootstrap', '~> 5.0.1'
   \n
   RUBY
 end
 
-gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.3.2'")
+gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.4'")
 
 inject_into_file 'Gemfile', after: 'group :development, :test do' do
   <<-RUBY

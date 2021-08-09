@@ -17,7 +17,7 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
   RUBY
 end
 
-gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.3.2'")
+gsub_file('Gemfile', /# gem 'rails'/, "'rails', '~> 6.1.4'")
 
 inject_into_file 'Gemfile', after: 'group :development, :test do' do
   <<-RUBY
