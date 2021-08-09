@@ -12,13 +12,24 @@ Since `Sprockets` and `Webpacker` coexist in Rails 6, the `stylesheet_link_tag` 
 
 ## Minimum (RSpec)
 
-Minimum template with just Hotwire and test suite installed.
+Minimum template with just Hotwire and RSpec suite installed.
 
 ```bash
 rails new \
   --database postgresql \
   -m https://raw.githubusercontent.com/edcolen/rails-templates/master/minimum.rb \
   -T \
+  YOUR_APP_NAME
+```
+
+## Minimum (Minitest)
+
+Minimum template with just Hotwire and Minitest suite installed.
+
+```bash
+rails new \
+  --database postgresql \
+  -m https://raw.githubusercontent.com/edcolen/rails-templates/master/minimum-minitest.rb \
   YOUR_APP_NAME
 ```
 
